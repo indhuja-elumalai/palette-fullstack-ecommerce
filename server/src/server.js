@@ -1,24 +1,58 @@
+// src/server.js
+
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import connectDB from './config/db.js';
+import testModelsRouter from './routes/test.js';
 
+// Load environment variables
 dotenv.config();
 
+// Initialize Express app
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5050;
 
-// CORS configuration: allow frontend on 3000
+// -----------------------
+// Middleware
+// -----------------------
+
+// Enable JSON parsing
+app.use(express.json());
+
+// CORS configuration
+// For development, allow all origins
 app.use(cors({
-  origin: 'http://localhost:3000', // only allow your frontend
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  origin: '*', // <-- allows Postman, frontend, etc.
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: true,
 }));
 
-app.use(express.json());
+// -----------------------
+// Database Connection
+// -----------------------
+connectDB(); // Connect to MongoDB Atlas
 
-// Test route
+// -----------------------
+// Routes
+// -----------------------
 app.get('/api/test', (req, res) => {
-  res.status(200).json({ message: 'Backend API is working!' });
+  res.status(200).json({ message: 'Backend API is working! 🚀' });
 });
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// Test models route
+app.use('/api', testModelsRouter);
+
+// -----------------------
+// 404 handler
+// -----------------------
+app.use((req, res) => {
+  res.status(404).json({ error: 'Route not found' });
+});
+
+// -----------------------
+// Start Server
+// -----------------------
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
