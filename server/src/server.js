@@ -9,6 +9,8 @@ import connectDB from './config/db.js';
 import testModelsRouter from './routes/test.js';
 import authRoutes from './routes/authRoutes.js';
 import protectedRoutes from './routes/protectedRoutes.js';
+import productRoutes from './routes/productRoutes.js';
+
 
 // Load environment variables
 dotenv.config();
@@ -56,6 +58,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api', testModelsRouter);
 
 app.use('/api', protectedRoutes);
+
+app.use('/api/products', productRoutes);
 
 // -----------------------
 // 404 Handler
