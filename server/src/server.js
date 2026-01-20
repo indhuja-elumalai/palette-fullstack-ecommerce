@@ -29,13 +29,40 @@ const PORT = process.env.PORT || 5050;
 app.use(express.json());
 
 // CORS - Updated for Vite
-app.use(
-  cors({
-    origin: 'http://localhost:5173', // Specifically allow your Vite frontend
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    credentials: true, // Required if you decide to use cookies later
-  })
-);
+// app.use(
+//   cors({
+//     origin: 'http://localhost:5173', // Specifically allow your Vite frontend
+//     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+//     credentials: true, // Required if you decide to use cookies later
+//   })
+// );
+import cors from 'cors';
+
+// List of allowed origins
+const allowedOrigins = [
+  'https://palette-ecommerce.netlify.app', // Your production URL
+  'http://localhost:5173',               // Your local Vite dev URL
+  'http://localhost:3000'                // Common alternative local URL
+];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
+
+
 
 // -----------------------
 // Database Connection
