@@ -1,3 +1,5 @@
+//palette-fullstack-ecommerce/server/src/server.js
+
 // src/server.js
 
 import express from 'express';
@@ -26,11 +28,12 @@ const PORT = process.env.PORT || 5050;
 // Parse JSON bodies
 app.use(express.json());
 
-// CORS (open for dev)
+// CORS - Updated for Vite
 app.use(
   cors({
-    origin: '*', // allows Postman, frontend, etc.
+    origin: 'http://localhost:5173', // Specifically allow your Vite frontend
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    credentials: true, // Required if you decide to use cookies later
   })
 );
 
