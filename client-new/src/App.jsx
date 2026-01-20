@@ -7,6 +7,7 @@ import Register from './pages/Register.jsx';
 import AdminDashboard from './pages/AdminDashboard.jsx';
 import Products from './pages/Products.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
+import Cart from './pages/Cart.jsx';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/login" element={<Login />} /> {/* Issue 3: Auth */}
         <Route path="/register" element={<Register />} /> {/* Issue 3: Auth */}
         <Route path="/products" element={<Products />} /> {/* Issue 6: Product UI */}
+        <Route path="/cart" element={<Cart />} />
         
         {/* Issue 4 & 5: Admin Role Protection */}
         <Route
